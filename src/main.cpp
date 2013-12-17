@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
 // Copyright (c) 2011-2012 Litecoin Developers
-// Copyright (c) 2013 DogeCoin Developers
+// Copyright (c) 2013 BillionCoin Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -34,7 +34,7 @@ unsigned int nTransactionsUpdated = 0;
 map<uint256, CBlockIndex*> mapBlockIndex;
 
 uint256 hashGenesisBlock = hashGenesisBlockOfficial;
-static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20); // DogeCoin: starting difficulty is 1 / 2^12
+static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20); // BillionCoin: starting difficulty is 1 / 2^12
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
 CBigNum bnBestChainWork = 0;
@@ -54,7 +54,7 @@ map<uint256, map<uint256, CDataStream*> > mapOrphanTransactionsByPrev;
 // Constant stuff for coinbase transactions we create:
 CScript COINBASE_FLAGS;
 
-const string strMessageMagic = "DogeCoin Signed Message:\n";
+const string strMessageMagic = "BillionCoin Signed Message:\n";
 
 double dHashesPerSec;
 int64 nHPSTimerStart;
@@ -841,19 +841,19 @@ int static generateMTRandom(unsigned int s, int range)
 
 int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
 {
-        int64 nSubsidy = 10000 * COIN;
+        int64 nSubsidy = 1000 * COIN;
          
         std::string cseed_str = prevHash.ToString().substr(7,7);
         const char* cseed = cseed_str.c_str();
         long seed = hex2long(cseed);
-        int rand = generateMTRandom(seed, 999999);
+        int rand = generateMTRandom(seed, 99999);
         int rand1 = 0;
         int rand2 = 0;
         int rand3 = 0;
         int rand4 = 0;
         int rand5 = 0;
        
-        if(nHeight < 100000)    
+        if(nHeight < 100000)
         {
                 nSubsidy = (1 + rand) * COIN;
         }
@@ -862,7 +862,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
                 cseed_str = prevHash.ToString().substr(7,7);
                 cseed = cseed_str.c_str();
                 seed = hex2long(cseed);
-                rand1 = generateMTRandom(seed, 499999);
+                rand1 = generateMTRandom(seed, 49999);
                 nSubsidy = (1 + rand1) * COIN;
         }
         else if(nHeight < 300000)      
@@ -870,7 +870,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
                 cseed_str = prevHash.ToString().substr(6,7);
                 cseed = cseed_str.c_str();
                 seed = hex2long(cseed);
-                rand2 = generateMTRandom(seed, 249999);
+                rand2 = generateMTRandom(seed, 24999);
                 nSubsidy = (1 + rand2) * COIN;
         }
         else if(nHeight < 400000)      
@@ -878,7 +878,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
                 cseed_str = prevHash.ToString().substr(7,7);
                 cseed = cseed_str.c_str();
                 seed = hex2long(cseed);
-                rand3 = generateMTRandom(seed, 124999);
+                rand3 = generateMTRandom(seed, 12499);
                 nSubsidy = (1 + rand3) * COIN;
         }
         else if(nHeight < 500000)      
@@ -886,7 +886,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
                 cseed_str = prevHash.ToString().substr(7,7);
                 cseed = cseed_str.c_str();
                 seed = hex2long(cseed);
-                rand4 = generateMTRandom(seed, 62499);
+                rand4 = generateMTRandom(seed, 6249);
                 nSubsidy = (1 + rand4) * COIN;
         }
         else if(nHeight < 600000)      
@@ -894,7 +894,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
                 cseed_str = prevHash.ToString().substr(6,7);
                 cseed = cseed_str.c_str();
                 seed = hex2long(cseed);
-                rand5 = generateMTRandom(seed, 31249);
+                rand5 = generateMTRandom(seed, 3249);
                 nSubsidy = (1 + rand5) * COIN;
         }
  
@@ -902,9 +902,8 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
 }
 
 
-
-static const int64 nTargetTimespan = 4 * 60 * 60; // DogeCoin: every 4 hours
-static const int64 nTargetSpacing = 60; // DogeCoin: 1 minutes
+static const int64 nTargetTimespan = 3 * 60 * 60; // BillionCoin: every 3 hours
+static const int64 nTargetSpacing = 60; // BillionCoin: 1 minutes
 static const int64 nInterval = nTargetTimespan / nTargetSpacing;
 
 //
@@ -963,7 +962,7 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
         return pindexLast->nBits;
     }
 
-    // DogeCoin: This fixes an issue where a 51% attack can change difficulty at will.
+    // BillionCoin: This fixes an issue where a 51% attack can change difficulty at will.
     // Go back the full period unless it's the first retarget after genesis. Code courtesy of Art Forz
     int blockstogoback = nInterval-1;
     if ((pindexLast->nHeight+1) != nInterval)
@@ -1253,7 +1252,7 @@ bool CTransaction::ConnectInputs(MapPrevTx inputs,
 {
     // Take over previous transactions' spent pointers
     // fBlock is true when this is called from AcceptBlock when a new best-block is added to the blockchain
-    // fMiner is true when called from the internal dogecoin miner
+    // fMiner is true when called from the internal billioncoin miner
     // ... both are false when called from CTransaction::AcceptToMemoryPool
     if (!IsCoinBase())
     {
@@ -2006,7 +2005,7 @@ bool CheckDiskSpace(uint64 nAdditionalBytes)
         string strMessage = _("Warning: Disk space is low");
         strMiscWarning = strMessage;
         printf("*** %s\n", strMessage.c_str());
-        uiInterface.ThreadSafeMessageBox(strMessage, "DogeCoin", CClientUIInterface::OK | CClientUIInterface::ICON_EXCLAMATION | CClientUIInterface::MODAL);
+        uiInterface.ThreadSafeMessageBox(strMessage, "BillionCoin", CClientUIInterface::OK | CClientUIInterface::ICON_EXCLAMATION | CClientUIInterface::MODAL);
         StartShutdown();
         return false;
     }
@@ -2081,18 +2080,8 @@ bool LoadBlockIndex(bool fAllowNew)
         if (!fAllowNew)
             return false;
 
-        // Genesis Block:
-		// hashGenesisBlock = 9b7bce58999062b63bfb18586813c42491fa32f4591d8d3043cb4fa9e551541b
-		// block.hashMerkleRoot = 6f80efd038566e1e3eab3e1d38131604d06481e77f2462235c6a9a94b1f8abf9
-		// CBlock(hash=9b7bce58999062b63bfb, PoW=caeb449903dc4f0e0ee2, ver=1, hashPrevBlock=00000000000000000000, 
-		//     hashMerkleRoot=6f80efd038, nTime=1369199888, nBits=1e0ffff0, nNonce=11288888, vtx=1)
-		//   CTransaction(hash=6f80efd038, ver=1, vin.size=1, vout.size=1, nLockTime=0)
-		//     CTxIn(COutPoint(0000000000, -1), coinbase 04ffff001d01044cd14d61792032322c20323031332c2031323a313620612e6d2e204544543a204a6170616e9273204e696b6b65692053746f636b2041766572616765204a503a4e494b202b312e3737252c20776869636820656e6465642061742074686569722068696768657374206c6576656c20696e206d6f7265207468616e206669766520796561727320696e2065616368206f6620746865206c6173742074687265652074726164696e672073657373696f6e732c20636c696d6265642061206675727468657220312e3225205765646e6573646179)
-		//     CTxOut(nValue=88.00000000, scriptPubKey=040184710fa689ad5023690c80f3a4)
-		//   vMerkleTree: 6f80efd038 
-
         // Genesis block
-        const char* pszTimestamp = "Nintondo";
+        const char* pszTimestamp = "Roasted Dumpling Billionair Here";
         CTransaction txNew;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
@@ -2104,14 +2093,14 @@ bool LoadBlockIndex(bool fAllowNew)
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1386325540;
+        block.nTime    = 1387200883;
         block.nBits    = 0x1e0ffff0;
-        block.nNonce   = 99943;
+        block.nNonce   = 152318;
 
 
         if (fTestNet)
         {
-            block.nTime    = 1386325540;
+            block.nTime    = 1387200883;
             block.nNonce   = 0;
         }
 
@@ -2119,9 +2108,9 @@ bool LoadBlockIndex(bool fAllowNew)
         printf("block.GetHash() = %s\n", block.GetHash().ToString().c_str());
         printf("hashGenesisBlock = %s\n", hashGenesisBlock.ToString().c_str());
         printf("block.hashMerkleRoot = %s\n", block.hashMerkleRoot.ToString().c_str());
-        assert(block.hashMerkleRoot == uint256("0x5b2a3f53f605d62c53e62932dac6925e3d74afa5a4b459745c36d42d0ed26a69"));
+        assert(block.hashMerkleRoot == uint256("0x7bba6a91316d7bdbc66f97e878e891cd38f5bf0743256276933556095d8a84d3"));
 
-if (true && block.GetHash() != hashGenesisBlock)
+if (false && block.GetHash() != hashGenesisBlock)
         {
             printf("Searching for genesis block...\n");
             // This will figure out a valid hash and Nonce if you're
@@ -3549,7 +3538,7 @@ CBlock* CreateNewBlock(CReserveKey& reservekey)
                 continue;
 
             // Transaction fee required depends on block size
-            // DogeCoind: Reduce the exempted free transactions to 500 bytes (from Bitcoin's 3000 bytes)
+            // BillionCoind: Reduce the exempted free transactions to 500 bytes (from Bitcoin's 3000 bytes)
             bool fAllowFree = (nBlockSize + nTxSize < 1500 || CTransaction::AllowFree(dPriority));
             int64 nMinFee = tx.GetMinFee(nBlockSize, fAllowFree, GMF_BLOCK);
 

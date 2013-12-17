@@ -4,7 +4,7 @@
  * W.J. van der Laan 2011-2012
  * The Bitcoin Developers 2011-2012
  * The Litecoin Developers 2011-2013
- * The DogeCoin Developers 2013
+ * The BillionCoin Developers 2013
  */
 #include "bitcoingui.h"
 #include "transactiontablemodel.h"
@@ -72,7 +72,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     rpcConsole(0)
 {
     resize(850, 550);
-    setWindowTitle(tr("DogeCoin") + " - " + tr("Wallet"));
+    setWindowTitle(tr("BillionCoin") + " - " + tr("Wallet"));
 #ifndef Q_WS_MAC
     qApp->setWindowIcon(QIcon(":icons/bitcoin"));
     setWindowIcon(QIcon(":icons/bitcoin"));
@@ -82,10 +82,10 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
 #endif
 
 	//specify a new font.
-	QFont newFont("Comic Sans MS", 10);
+    QFont newFont("Tahoma", 10);
 	
 	//set font of application
-	QApplication::setFont(newFont);
+    QApplication::setFont(newFont);
     
 	// Accept D&D of URIs
     setAcceptDrops(true);
@@ -202,37 +202,37 @@ void BitcoinGUI::createActions()
 {
     QActionGroup *tabGroup = new QActionGroup(this);
 
-    overviewAction = new QAction(QIcon(":/icons/overview"), tr("&Wow"), this);
+    overviewAction = new QAction(QIcon(":/icons/overview"), tr("&Home"), this);
     overviewAction->setToolTip(tr("Show general overview of wallet"));
     overviewAction->setCheckable(true);
     overviewAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_1));
     tabGroup->addAction(overviewAction);
 
-    miningAction = new QAction(QIcon(":/icons/mining"), tr("&Dig"), this);
-    miningAction->setToolTip(tr("dig config"));
+    miningAction = new QAction(QIcon(":/icons/mining"), tr("&Mine"), this);
+    miningAction->setToolTip(tr("Mine config"));
     miningAction->setCheckable(true);
     tabGroup->addAction(miningAction);
 
-    historyAction = new QAction(QIcon(":/icons/history"), tr("&Many History"), this);
+    historyAction = new QAction(QIcon(":/icons/history"), tr("&Transaction"), this);
     historyAction->setToolTip(tr("Browse transaction history"));
     historyAction->setCheckable(true);
     historyAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_4));
     tabGroup->addAction(historyAction);
 
-    addressBookAction = new QAction(QIcon(":/icons/address-book"), tr("&Very Address"), this);
+    addressBookAction = new QAction(QIcon(":/icons/address-book"), tr("&Address"), this);
     addressBookAction->setToolTip(tr("Edit the list of stored addresses and labels"));
     addressBookAction->setCheckable(true);
     addressBookAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
     tabGroup->addAction(addressBookAction);
 
-    receiveCoinsAction = new QAction(QIcon(":/icons/receiving_addresses"), tr("&Much Receive"), this);
+    receiveCoinsAction = new QAction(QIcon(":/icons/receiving_addresses"), tr("&Receive"), this);
     receiveCoinsAction->setToolTip(tr("Show the list of addresses for receiving payments"));
     receiveCoinsAction->setCheckable(true);
     receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
     tabGroup->addAction(receiveCoinsAction);
 
-    sendCoinsAction = new QAction(QIcon(":/icons/send"), tr("&Pls Send"), this);
-    sendCoinsAction->setToolTip(tr("Send coins to a DogeCoin address"));
+    sendCoinsAction = new QAction(QIcon(":/icons/send"), tr("&Send"), this);
+    sendCoinsAction->setToolTip(tr("Send coins to a BillionCoin address"));
     sendCoinsAction->setCheckable(true);
     sendCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
     tabGroup->addAction(sendCoinsAction);
@@ -277,18 +277,18 @@ void BitcoinGUI::createActions()
     quitAction->setToolTip(tr("Quit application"));
     quitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
     quitAction->setMenuRole(QAction::QuitRole);
-    aboutAction = new QAction(QIcon(":/icons/bitcoin"), tr("&About DogeCoin"), this);
-    aboutAction->setToolTip(tr("Show information about DogeCoin"));
+    aboutAction = new QAction(QIcon(":/icons/bitcoin"), tr("&About BillionCoin"), this);
+    aboutAction->setToolTip(tr("Show information about BillionCoin"));
     aboutAction->setMenuRole(QAction::AboutRole);
     aboutQtAction = new QAction(tr("About &Qt"), this);
     aboutQtAction->setToolTip(tr("Show information about Qt"));
     aboutQtAction->setMenuRole(QAction::AboutQtRole);
     optionsAction = new QAction(QIcon(":/icons/options"), tr("&Options..."), this);
-    optionsAction->setToolTip(tr("Modify configuration options for DogeCoin"));
+    optionsAction->setToolTip(tr("Modify configuration options for BillionCoin"));
     optionsAction->setMenuRole(QAction::PreferencesRole);
-    toggleHideAction = new QAction(QIcon(":/icons/bitcoin"), tr("Show/Hide &DogeCoin"), this);
-    toggleHideAction->setToolTip(tr("Show or hide the DogeCoin window"));
-    exportAction = new QAction(QIcon(":/icons/export"), tr("&So Export..."), this);
+    toggleHideAction = new QAction(QIcon(":/icons/bitcoin"), tr("Show/Hide &BillionCoin"), this);
+    toggleHideAction->setToolTip(tr("Show or hide the BillionCoin window"));
+    exportAction = new QAction(QIcon(":/icons/export"), tr("&Export..."), this);
     exportAction->setToolTip(tr("Export the data in the current tab to a file"));
     encryptWalletAction = new QAction(QIcon(":/icons/lock_closed"), tr("&Encrypt Wallet..."), this);
     encryptWalletAction->setToolTip(tr("Encrypt or decrypt wallet"));
@@ -380,7 +380,7 @@ void BitcoinGUI::setClientModel(ClientModel *clientModel)
 #endif
             if(trayIcon)
             {
-                trayIcon->setToolTip(tr("DogeCoin client") + QString(" ") + tr("[testnet]"));
+                trayIcon->setToolTip(tr("BillionCoin client") + QString(" ") + tr("[testnet]"));
                 trayIcon->setIcon(QIcon(":/icons/toolbar_testnet"));
                 toggleHideAction->setIcon(QIcon(":/icons/toolbar_testnet"));
             }
@@ -444,7 +444,7 @@ void BitcoinGUI::createTrayIcon()
     trayIcon = new QSystemTrayIcon(this);
     trayIconMenu = new QMenu(this);
     trayIcon->setContextMenu(trayIconMenu);
-    trayIcon->setToolTip(tr("DogeCoin client"));
+    trayIcon->setToolTip(tr("BillionCoin client"));
     trayIcon->setIcon(QIcon(":/icons/toolbar"));
     connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
@@ -481,7 +481,7 @@ void BitcoinGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if(reason == QSystemTrayIcon::Trigger)
     {
-        // Click on system tray icon triggers "show/hide DogeCoin"
+        // Click on system tray icon triggers "show/hide BillionCoin"
         toggleHideAction->trigger();
     }
 }
@@ -515,7 +515,7 @@ void BitcoinGUI::setNumConnections(int count)
     default: icon = ":/icons/connect_4"; break;
     }
     labelConnectionsIcon->setPixmap(QIcon(icon).pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
-    labelConnectionsIcon->setToolTip(tr("%n active connection(s) to DogeCoin network", "", count));
+    labelConnectionsIcon->setToolTip(tr("%n active connection(s) to BillionCoin network", "", count));
 }
 
 void BitcoinGUI::setNumBlocks(int count, int nTotalBlocks)
@@ -631,12 +631,12 @@ void BitcoinGUI::setMining(bool mining, int hashrate)
     if (mining)
     {
         labelMiningIcon->setPixmap(QIcon(":/icons/mining_active").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
-        labelMiningIcon->setToolTip(tr("Dig DogeCoins at %1 hashes per second").arg(hashrate));
+        labelMiningIcon->setToolTip(tr("Dig BillionCoins at %1 hashes per second").arg(hashrate));
     }
     else
     {
         labelMiningIcon->setPixmap(QIcon(":/icons/mining_inactive").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
-        labelMiningIcon->setToolTip(tr("Not dig DogeCoins"));
+        labelMiningIcon->setToolTip(tr("Not dig BillionCoins"));
     }
 }
 
@@ -851,7 +851,7 @@ void BitcoinGUI::dropEvent(QDropEvent *event)
         if (nValidUrisFound)
             gotoSendCoinsPage();
         else
-            notificator->notify(Notificator::Warning, tr("URI handling"), tr("URI can not be parsed! This can be caused by an invalid DogeCoin address or malformed URI parameters."));
+            notificator->notify(Notificator::Warning, tr("URI handling"), tr("URI can not be parsed! This can be caused by an invalid BillionCoin address or malformed URI parameters."));
     }
 
     event->acceptProposedAction();
@@ -866,7 +866,7 @@ void BitcoinGUI::handleURI(QString strURI)
         gotoSendCoinsPage();
     }
     else
-        notificator->notify(Notificator::Warning, tr("URI handling"), tr("URI can not be parsed! This can be caused by an invalid DogeCoin address or malformed URI parameters."));
+        notificator->notify(Notificator::Warning, tr("URI handling"), tr("URI can not be parsed! This can be caused by an invalid BillionCoin address or malformed URI parameters."));
 }
 
 void BitcoinGUI::setEncryptionStatus(int status)
